@@ -22,7 +22,7 @@ while True:
     for i in mrs_cd:
         print(i, end=' ')
 
-    q2 = int(input('\nQuer continuar a traduzir?\n1-SIM\n2-NÂO'))
+    q2 = int(input('\nQuer continuar a traduzir?\n1-SIM\n2-NÃO'))
     if q2 == 2:
         break
     elif q2 != 1:
