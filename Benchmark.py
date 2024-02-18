@@ -29,3 +29,6 @@ temp = end - start
 
 print(f'Para fazer os calculos o computador demorou: {temp} segundos')
 
+#0.005390644073486328
+#0.012660741806030273
+#0.027431249618530273
