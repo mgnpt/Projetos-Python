@@ -6,17 +6,25 @@ alf = {
     'Y': '-o--', 'Z': '--oo', ' ': '/',
     '1': 'o----', '2': 'oo---', '3': 'ooo--', '4': 'oooo-', '5': 'ooooo',
     '6': '-oooo', '7': '--ooo', '8': '---oo', '9': '----o', '0': '-----',
-    '.': 'o-oo-oo', ',': '--oo--', '?': 'oo--oo', '!': '-o--o-','(': '-oo-o', ')': '-oo-o-',
-    ':': '---ooo', ';': '-o-oo-', '"': 'o-o-oo'
-        }
+    '.': 'o-oo-oo', ',': '--oo--', '?': 'oo--oo', '!': '-o--o-', '(': '-oo-o',
+    ')': '-oo-o-', ':': '---ooo', ';': '-o-oo-', '"': 'o-o-oo'
+}
 
-q1 = input('Insira o que quer traduzir para código morse: ')
-q1 = q1.upper()
+while True:
+    q1 = input('Insira o que quer traduzir para código morse: ')
+    q1 = q1.upper()
 
-mrs_cd = []
+    mrs_cd = []
 
-for i in q1:
-    mrs_cd.append(alf[i])
+    for i in q1:
+        mrs_cd.append(alf[i])
 
-for i in mrs_cd:
-    print(i, end=' ')
+    for i in mrs_cd:
+        print(i, end=' ')
+
+    q2 = int(input('\nQuer continuar a traduzir?\n1-SIM\n2-NÂO'))
+    if q2 == 2:
+        break
+    elif q2 != 1:
+        print('Input inválido')
+        break
