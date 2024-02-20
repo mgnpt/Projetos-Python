@@ -1,7 +1,9 @@
 #from random import randint
+#from Games import *
 
 perfis = []
 perfil_atual = None
+
 def menu(a):
     print("-" * 20)
     print(f"WELCOME {a}")
@@ -11,6 +13,12 @@ def def_perfil():
     q2 = input('Qual é o nome do perfil? ')
     q2 = q2.capitalize()
     perfis.append(q2)
+
+def sel_game(a):
+    CoinFlip = False  # Quando escolher o valor fica True
+    Roulette = False  # Quando escolher o valor fica True
+    q4 = int(input('Qual é o jogo qu quer jogar?\n1-Cara ou Coroa\n2-Roullete'))
+
 
 
 while True:
