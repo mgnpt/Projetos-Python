@@ -1,4 +1,5 @@
-from random import randint
+from random import randint, choice
+from cards import cartas
 
 def coin_flip():
     n1 = randint(1, 2)
@@ -63,3 +64,40 @@ def roulette():
         Fr_Two_To_One = True
 
     print(f'{resultado} - {cor} - {evorod}')
+
+def cartas_ale():
+    n1 = choice(cartas)
+    return n1
+
+def calc_vlr(jogo):
+    ttl = 0
+    as_tt = 0
+    for carta in jogo:
+        valor = carta[:-1]
+        if carta in ['J', 'Q', 'K']:
+            ttl += 10
+        elif carta == 'A':
+            ttl += 11
+            as_tt += 1
+        else:
+            ttl += int(valor)
+        while ttl > 21 and as_tt != 0:
+            ttl -= 10
+            as_tt -= 1
+    return ttl
+
+def blackjack():
+    cartas_jg = [cartas_ale(), cartas_ale()]
+    cartas_dl = [cartas_ale()]
+    ttl_jg = calc_vlr(cartas_jg)
+    ttl_dl = calc_vlr(cartas_dl)
+
+    print(f'Você tem um {cartas_jg[0]} e {cartas_jg[1]} que valem: {ttl_jg}')
+    if ttl_jg > 21:
+        print('Você perdeu')
+    elif ttl_jg == 21:
+        print('Conseguiu BlackJack, você ganhou! ')
+
+    print(f'A casa  tem um {cartas_dl[0]} que vale: {ttl_dl}')
+
+blackjack()
