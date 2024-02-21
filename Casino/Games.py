@@ -74,9 +74,9 @@ def calc_vlr(jogo):
     as_tt = 0
     for carta in jogo:
         valor = carta[:-1]
-        if carta in ['J', 'Q', 'K']:
+        if valor in ['J', 'Q', 'K']:
             ttl += 10
-        elif carta == 'A':
+        elif valor == 'A':
             ttl += 11
             as_tt += 1
         else:
@@ -86,18 +86,91 @@ def calc_vlr(jogo):
             as_tt -= 1
     return ttl
 
+
+def dec(cartas_jg, ttl_jg):
+    if ttl_jg >= 21:
+        return
+    q1 = int(input('Tem menos de 21 pontos, qual é a sua ação?\n1-Stand\n2-Double\n3-Hit: '))
+    if q1 == 1:  # Stand
+        pass
+    elif q1 == 2:  # Double, acaber depois com o sistema de dinheiro
+        nv_carta = cartas_ale()
+        cartas_jg.append(nv_carta)
+        ttl_jg = calc_vlr(cartas_jg)
+        print(f'Nova carta: {nv_carta}. Total de pontos: {ttl_jg}')
+        return
+    elif q1 == 3:  # Hit
+        nv_carta = cartas_ale()
+        cartas_jg.append(nv_carta)
+        ttl_jg = calc_vlr(cartas_jg)
+        print(f'Nova carta: {nv_carta}. Total de pontos: {ttl_jg}')
+        dec(cartas_jg, ttl_jg)
+
+
+
 def blackjack():
     cartas_jg = [cartas_ale(), cartas_ale()]
-    cartas_dl = [cartas_ale()]
+    cartas_dl = [cartas_ale(), cartas_ale()]  # Dealer recebe a segunda carta
     ttl_jg = calc_vlr(cartas_jg)
     ttl_dl = calc_vlr(cartas_dl)
+    double = True
 
     print(f'Você tem um {cartas_jg[0]} e {cartas_jg[1]} que valem: {ttl_jg}')
+    print(f'A casa tem um {cartas_dl[0]} que vale: {calc_vlr([cartas_dl[0]])}')  # Print da mão do Dealer e os pontos
+
+    if ttl_jg == 21:
+        print('Conseguiu BlackJack, você ganhou! ')
+        return
+
     if ttl_jg > 21:
         print('Você perdeu')
-    elif ttl_jg == 21:
-        print('Conseguiu BlackJack, você ganhou! ')
+        return
 
-    print(f'A casa  tem um {cartas_dl[0]} que vale: {ttl_dl}')
+    while ttl_jg < 21:
+        if double:
+            dec_op = int(input('Tem menos de 21 pontos, qual é a sua ação?\n1-Stand\n2-Double\n3-Hit: '))
+            if dec_op == 1:  # Stand
+                break  # Quando o jogador faz ‘Stand’, não há mais jogadas
+            elif dec_op == 2:  # Double, acabar depois com o sistema de dinheiro (aparece depois da primeira jogada)
+                nv_carta = cartas_ale()
+                cartas_jg.append(nv_carta)
+                ttl_jg = calc_vlr(cartas_jg)
+                print(f'Nova carta: {nv_carta}. Total: {ttl_jg}')
+                double = False
+                continue
+            elif dec_op == 3:  # Hit
+                nv_carta = cartas_ale()
+                cartas_jg.append(nv_carta)
+                ttl_jg = calc_vlr(cartas_jg)
+                print(f'Nova carta: {nv_carta}. Total: {ttl_jg}')
+                continue
+        else:
+            dec_op = int(input('Tem menos de 21 pontos, qual é a sua ação?\n1-Stand\n2-Hit: '))
+            if dec_op == 1:  # Stand
+                break  # Mesma coisa que na linha 133
+            elif dec_op == 2:  # Hit
+                nv_carta = cartas_ale()
+                cartas_jg.append(nv_carta)
+                ttl_jg = calc_vlr(cartas_jg)
+                print(f'Nova carta: {nv_carta}. Total: {ttl_jg}')
+                continue
+
+    # Dealer tira cartas até chegar a um soft 17+
+    while ttl_dl < 17 or (ttl_dl == 17 and 'A' in cartas_dl):
+        nv_carta = cartas_ale()
+        cartas_dl.append(nv_carta)
+        ttl_dl = calc_vlr(cartas_dl)
+
+    print(f'A casa tem um {cartas_dl[0]} e {cartas_dl[1]} que valem: {ttl_dl}')  # Print da mão do Dealer e os pontos
+    if ttl_jg > 21:
+        print('Você perdeu!')
+    elif ttl_dl > 21 or (ttl_dl <= 21 and ttl_jg > ttl_dl):
+        print('Você ganhou!')
+    elif ttl_jg <= 21 and ttl_dl <= 21 and ttl_jg < ttl_dl:
+        print('Você perdeu!')
+    else:
+        print('Empate!')
+
 
 blackjack()
+
