@@ -1,0 +1,3 @@
+Nome: Jogador
+Dinheiro: 100€
+% de vitórias: 0.00%
