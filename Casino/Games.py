@@ -1,13 +1,25 @@
 from random import randint, choice
 from cards import cartas
 
+
 def coin_flip():
+    global bet_dnh, bet_res, bet_f
+    bet_dnh = int(input('Quanto quer apostar?\n'))
+    bet_res = int(input('Cara ou Coroa?\n1-Cara\n2-Coroa\n'))
     n1 = randint(1, 2)
     if n1 == 1:
         resultado = 'Cara'
+        if bet_res == 1:
+            bet_f = bet_dnh
+        else:
+            bet_f = -bet_dnh
         print(resultado)
     elif n1 == 2:
         resultado = 'coroa'
+        if bet_res == 2:
+            bet_f = bet_dnh
+        else:
+            bet_f = -bet_dnh
         print(resultado)
 
 def roulette():
@@ -109,25 +121,29 @@ def dec(cartas_jg, ttl_jg):
 
 
 def blackjack():
+    global vt, ttl_jgs
     cartas_jg = [cartas_ale(), cartas_ale()]
     cartas_dl = [cartas_ale(), cartas_ale()]  # Dealer recebe a segunda carta
     ttl_jg = calc_vlr(cartas_jg)
     ttl_dl = calc_vlr(cartas_dl)
-    double = True
+    Fr_jogada = True
 
     print(f'Você tem um {cartas_jg[0]} e {cartas_jg[1]} que valem: {ttl_jg}')
     print(f'A casa tem um {cartas_dl[0]} que vale: {calc_vlr([cartas_dl[0]])}')  # Print da mão do Dealer e os pontos
 
     if ttl_jg == 21:
         print('Conseguiu BlackJack, você ganhou! ')
+        vt =+ 1
+        ttl_jgs =+ 1
         return
 
     if ttl_jg > 21:
         print('Você perdeu')
+        ttl_jgs =+ 1
         return
 
     while ttl_jg < 21:
-        if double:
+        if Fr_jogada:
             dec_op = int(input('Tem menos de 21 pontos, qual é a sua ação?\n1-Stand\n2-Double\n3-Hit: '))
             if dec_op == 1:  # Stand
                 break  # Quando o jogador faz ‘Stand’, não há mais jogadas
@@ -136,7 +152,7 @@ def blackjack():
                 cartas_jg.append(nv_carta)
                 ttl_jg = calc_vlr(cartas_jg)
                 print(f'Nova carta: {nv_carta}. Total: {ttl_jg}')
-                double = False
+                Fr_jogada = False
                 continue
             elif dec_op == 3:  # Hit
                 nv_carta = cartas_ale()
@@ -161,7 +177,7 @@ def blackjack():
         cartas_dl.append(nv_carta)
         ttl_dl = calc_vlr(cartas_dl)
 
-    print(f'A casa tem um {cartas_dl[0]} e {cartas_dl[1]} que valem: {ttl_dl}')  # Print da mão do Dealer e os pontos
+    print(f'A casa tem um {cartas_dl[0]} e {cartas_dl[1]} que valem: {ttl_dl}')  #Print da mão do Dealer e os pontos
     if ttl_jg > 21:
         print('Você perdeu!')
     elif ttl_dl > 21 or (ttl_dl <= 21 and ttl_jg > ttl_dl):
@@ -170,7 +186,3 @@ def blackjack():
         print('Você perdeu!')
     else:
         print('Empate!')
-
-
-blackjack()
-
